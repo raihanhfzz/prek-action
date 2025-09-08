@@ -1,0 +1,60 @@
+# Prek Action
+
+A GitHub Action that runs pre-commit hooks using Prek in your CI/CD pipeline.
+
+## What is Prek?
+
+[Prek] is a fast pre-commit hook runner that provides an alternative to the standard pre-commit framework. It offers better performance and caching capabilities for running code quality checks.
+
+[Prek]: https://github.com/j178/prek
+
+## Usage
+
+### Basic Usage
+
+```yaml
+name: Pre-commit checks
+on: [push, pull_request]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: frostming/prek-action@v1
+```
+
+### Custom Arguments
+
+```yaml
+steps:
+  - uses: actions/checkout@v4
+  - uses: frostming/prek-action@v1
+    with:
+      extra_args: '--all-files --directory packages/'
+```
+
+### Running Specific Hooks
+
+```yaml
+steps:
+  - uses: actions/checkout@v4
+  - uses: frostming/prek-action@v1
+    with:
+      extra_args: '--all-files mypy flake8 ruff'
+```
+
+## Inputs
+
+| Input        | Description                                | Required | Default       |
+| ------------ | ------------------------------------------ | -------- | ------------- |
+| `extra_args` | Additional arguments to pass to `prek run` | No       | `--all-files` |
+
+
+## Requirements
+
+Your repository must have a `.pre-commit-config.yaml` file configured for use with pre-commit hooks.
+
+## License
+
+This action is licensed under the MIT License. See [LICENSE](LICENSE) for details.

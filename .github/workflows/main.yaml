@@ -1,0 +1,12 @@
+on:
+  pull_request:
+  push:
+    branches: [main, 'dev-*']
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: self test action
+      uses: ./
