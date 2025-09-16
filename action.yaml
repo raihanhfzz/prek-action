@@ -2,20 +2,19 @@ name: prek-action
 description: Run pre-commit hooks using prek
 inputs:
   extra_args:
-    description: options to pass to prek run
+    description: Options to pass to `prek run`
     required: false
     default: '--all-files'
 runs:
   using: composite
   steps:
-  - name: Install uv
-    uses: astral-sh/setup-uv@v6
-  - run: uv tool install prek
+  - name: Install prek
+    run: python -m pip install prek
     shell: bash
-  - uses: actions/cache@v4
+  - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
     with:
       path: ~/.cache/prek
-      key: prek|${{ hashFiles('.pre-commit-config.yaml') }}
+      key: prek-v1|${{ hashFiles('**/.pre-commit-config.yaml') }}
   - run: prek run --show-diff-on-failure --color=always ${{ inputs.extra_args }}
     shell: bash
 branding:
