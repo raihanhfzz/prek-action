@@ -11,23 +11,23 @@ A GitHub Action that runs pre-commit hooks using **prek** in your CI/CD pipeline
 ### Basic Usage
 
 ```yaml
-name: Pre-commit checks
+name: Prek checks
 on: [push, pull_request]
 
 jobs:
-  pre-commit:
+  prek:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: frostming/prek-action@v1
+      - uses: actions/checkout@v5
+      - uses: j178/prek-action@v1
 ```
 
 ### Custom Arguments
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
-  - uses: frostming/prek-action@v1
+  - uses: actions/checkout@v5
+  - uses: j178/prek-action@v1
     with:
       extra_args: '--all-files --directory packages/'
 ```
@@ -36,8 +36,8 @@ steps:
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
-  - uses: frostming/prek-action@v1
+  - uses: actions/checkout@v5
+  - uses: j178/prek-action@v1
     with:
       extra_args: '--all-files mypy flake8 ruff'
 ```
@@ -47,7 +47,6 @@ steps:
 | Input        | Description                                | Required | Default       |
 | ------------ | ------------------------------------------ | -------- | ------------- |
 | `extra_args` | Additional arguments to pass to `prek run` | No       | `--all-files` |
-
 
 ## Requirements
 
