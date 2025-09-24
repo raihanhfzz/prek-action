@@ -1,10 +1,13 @@
 name: prek-action
 description: Run pre-commit hooks using prek
 inputs:
-  extra_args:
+  extra-args:
     description: Options to pass to `prek run`
     required: false
     default: '--all-files'
+  extra_args:
+    description: Options to pass to `prek run` (deprecated, use extra-args)
+    required: false
   install-only:
     description: Only install prek, do not run it
     required: false
@@ -45,7 +48,7 @@ runs:
         ~\AppData\Local\prek
       key: prek-v1|${{ runner.os }}|${{ runner.arch }}|${{ hashFiles('**/.pre-commit-config.yaml') }}
     if: inputs.install-only == 'false'
-  - run: prek run --show-diff-on-failure --color=always ${{ inputs.extra_args }}
+  - run: prek run --show-diff-on-failure --color=always ${{ inputs.extra_args || inputs.extra-args }}
     shell: bash
     if: inputs.install-only == 'false'
 branding:
