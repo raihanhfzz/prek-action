@@ -26,19 +26,20 @@ runs:
   - name: Resolve download URL
     id: resolve
     run: |
-      if [ "${{ inputs.prek-version }}" = "latest" ]; then
+      if [[ "${PREK_VERSION}" = "latest" ]]; then
         echo "version=latest" >> $GITHUB_OUTPUT
         echo "base_url=https://github.com/j178/prek/releases/latest/download/" >> $GITHUB_OUTPUT
       else
-        VERSION="${{ inputs.prek-version }}"
-        VERSION="${VERSION#v}"
-        VERSION="v$VERSION"
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "base_url=https://github.com/j178/prek/releases/download/$VERSION/" >> $GITHUB_OUTPUT
+        VERSION="${PREK_VERSION#v}"
+        VERSION="v${VERSION}"
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "base_url=https://github.com/j178/prek/releases/download/${VERSION}/" >> $GITHUB_OUTPUT
       fi
     shell: bash
+    env:
+      PREK_VERSION: ${{ inputs.prek-version }}
   - name: Install prek
-    run: "curl --proto '=https' --tlsv1.2 -LsSf ${{ steps.resolve.outputs.base_url }}prek-installer.sh | sh"
+    run: "curl --proto '=https' --tlsv1.2 -LsSf '${{ steps.resolve.outputs.base_url }}prek-installer.sh' | sh"
     shell: bash
     if: runner.os != 'Windows'
   - name: Install prek (Windows)
@@ -52,10 +53,24 @@ runs:
         ~\AppData\Local\prek
       key: prek-v1|${{ runner.os }}|${{ runner.arch }}|${{ hashFiles(format('{0}/**/.pre-commit-config.yaml', inputs.working-directory)) }}
     if: inputs.install-only == 'false'
-  - run: prek run --show-diff-on-failure --color=always ${{ inputs.extra_args || inputs.extra-args }}
+  - run: |
+      ARGS=(--show-diff-on-failure --color=always)
+      # Only allow safe flags
+      if [[ -n "$EXTRA_ARGS" ]]; then
+        for arg in $EXTRA_ARGS; do
+          if [[ ! "$arg" =~ ^[a-zA-Z0-9._/\\- ]+$ ]]; then
+            echo "❌ Invalid argument: $arg" >&2
+            exit 1
+          fi
+          ARGS+=("$arg")
+        done
+      fi
+      prek run "${ARGS}"
     shell: bash
     working-directory: ${{ inputs.working-directory }}
     if: inputs.install-only == 'false'
+    env:
+      EXTRA_ARGS: ${{ inputs.extra_args || inputs.extra-args }}
 branding:
   icon: 'git-commit'
   color: 'orange'
