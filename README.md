@@ -76,6 +76,12 @@ When `install-only` is set to `true`, the action will only install prek and skip
 | `prek-version`     | Version of prek to install (e.g., '0.2.1', 'latest') | No | `latest` |
 | `working-directory` | The working directory to run prek in      | No       | `.`           |
 
+## Outputs
+
+| Output         | Description                                           |
+| -------------- | ----------------------------------------------------- |
+| `prek-version` | The resolved version of prek that was installed       |
+
 ## Requirements
 
 Your repository must have a `.pre-commit-config.yaml` file configured for use with pre-commit hooks.
